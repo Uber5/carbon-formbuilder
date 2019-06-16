@@ -1,0 +1,59 @@
+{
+  "name": "u5-carbon-formbuilder",
+  "version": "0.0.1",
+  "description": "React Formbuilder using the  Carbon Design System",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "jest",
+    "prepublish": "npm run build && npm run styleguide:build",
+    "build": "babel src -d lib",
+    "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build"
+  },
+  "keywords": [
+    "react",
+    "carbon",
+    "components",
+    "formbuilder",
+    "form"
+  ],
+  "author": "chris@uber5.com",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "carbon-components": "^10.3.0",
+    "carbon-components-react": "^7.3.1",
+    "carbon-icons": "^7.0.7",
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "carbon-components": "^10.3.0",
+    "carbon-components-react": "^7.3.1",
+    "carbon-icons": "^7.0.7",
+    "css-loader": "^3.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-styleguidist": "^9.1.6",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.33.0",
+    "react-router-dom": "^5.0.1"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Uber5/carbon-shell"
+  }
+}
