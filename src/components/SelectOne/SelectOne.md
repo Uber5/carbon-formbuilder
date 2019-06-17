@@ -1,6 +1,6 @@
 Use this to select one value from a finite list of values.
 
-(more doc here...)
+(component not ready yet, also need more doc here...)
 
 ```js
 import FormBuilder from '../FormBuilder';
