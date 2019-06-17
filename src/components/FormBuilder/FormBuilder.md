@@ -37,7 +37,7 @@ const validate = values => {
   config={{ fields, validate }}
   onSubmit={(values, actions) => {
     alert(`values: ${JSON.stringify(values)}`)
-    actions.setSubmitting(false);
+    actions.setSubmitting(false)
   }}
 />
 ```
