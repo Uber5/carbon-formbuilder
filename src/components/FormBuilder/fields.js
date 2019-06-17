@@ -7,37 +7,23 @@ export const SubmitButton = props => <IconButton {...props}>Submit</IconButton>
 export const Field = ({ field, values, errors, touched, handleChange, handleBlur, formProps }) => {
   const { type, name, label, placeholder } = field
 
-  console.log('values', name, values)
   switch (type) {
     case 'email':
       return (
-        <>
-          <TextInput
-            name={name}
-            labelText={label}
-            invalid={touched[name] && errors[name] !== undefined}
-            invalidText={touched[name] && errors[name]}
-            type="email"
-            value={values[name]}
-            onBlur={handleBlur}
-            onChange={e => {
-              e.stopPropagation()
-              handleChange(e)
-            }}
-            placeholder={placeholder}
-          />
-          <input
-            type="email"
-            name={name}
-            value={values[name]}
-            onBlur={handleBlur}
-            onChange={e => {
-              e.stopPropagation()
-              handleChange(e)
-            }}
-          />
-          <p>TODO: initial value not working for email and text field.</p>
-        </>
+        <TextInput
+          name={name}
+          labelText={label}
+          invalid={touched[name] && errors[name] !== undefined}
+          invalidText={touched[name] && errors[name]}
+          type="email"
+          value={values[name] || ''}
+          onBlur={handleBlur}
+          onChange={e => {
+            e.stopPropagation()
+            handleChange(e)
+          }}
+          placeholder={placeholder}
+        />
       )
 
     case 'password':
@@ -61,9 +47,10 @@ export const Field = ({ field, values, errors, touched, handleChange, handleBlur
       return (
         <NumberInput
           name={name}
+          label={label}
           invalid={touched[name] && errors[name] !== undefined}
           invalidText={touched[name] && errors[name]}
-          value={values[name] || ''}
+          value={values[name] || 0}
           onBlur={handleBlur}
           onChange={e => handleChange(e)}
           placeholder={field.placeholder}

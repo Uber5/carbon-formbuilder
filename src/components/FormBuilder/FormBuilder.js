@@ -14,7 +14,6 @@ export default ({ config, initialValues, onSubmit, ...props }) => {
       }, {}),
     initialValues || {}
   )
-  console.log('initialValues', _initialValues)
   return (
     <Formik
       validateOnChange
@@ -30,21 +29,16 @@ export default ({ config, initialValues, onSubmit, ...props }) => {
       {formikProps => {
         return (
           <Form>
-            <FormGroup legendText="Form fields">
-              {config.fields.map(f => (
-                <Field key={f.name} field={f} {...formikProps} formProps={props} />
-              ))}
-            </FormGroup>
-            <FormGroup legendText="Form controls">
-              <SubmitButton
-                disabled={
-                  Object.keys(formikProps.touched).length === 0 ||
-                  Object.keys(formikProps.errors).length > 0 ||
-                  formikProps.isSubmitting
-                }
-                type="submit"
-              />
-            </FormGroup>
+            {config.fields.map(f => (
+              <Field key={f.name} field={f} {...formikProps} formProps={props} />
+            ))}
+            <SubmitButton
+              disabled={
+                Object.keys(formikProps.errors).length > 0 ||
+                formikProps.isSubmitting
+              }
+              type="submit"
+            />
           </Form>
         )
       }}
