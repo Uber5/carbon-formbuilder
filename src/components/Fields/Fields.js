@@ -4,9 +4,7 @@ import { IconButton } from 'u5-carbon-components-react'
 
 import SelectOne from '../SelectOne'
 
-export const SubmitButton = props => <IconButton {...props}>Submit</IconButton>
-
-export const Field = ({ field, values, errors, touched, handleChange, handleBlur, formProps }) => {
+const Field = ({ field, values, errors, touched, handleChange, handleBlur, formProps }) => {
   const { type, name, label, placeholder } = field
 
   switch (type) {
@@ -198,3 +196,15 @@ export const Field = ({ field, values, errors, touched, handleChange, handleBlur
       return <div>Unknown field type {type}</div>
   }
 }
+
+const Fields = ({ fields, formikProps, formProps }) => {
+  return <>
+    {
+      fields.map(f => (
+        <Field key={f.name} field={f} {...formikProps} formProps={formProps} />
+      ))
+    }
+  </>
+}
+
+export default Fields

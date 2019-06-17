@@ -1,10 +1,13 @@
 import React from 'react'
 import { Formik, Form } from 'formik'
-import { Field, SubmitButton } from './fields'
-import { FormItem, FormGroup } from 'carbon-components-react'
+import Fields from '../Fields'
+import { IconButton } from 'u5-carbon-components-react'
 import { ok } from 'assert'
+import { Loading } from 'carbon-components-react';
 
-export default ({ config, initialValues, onSubmit, renderSubmitButton, formRef, ...props }) => {
+const SubmitButton = props => <IconButton {...props}>Submit</IconButton>
+
+export default ({ config, initialValues, onSubmit, renderSubmitButton, renderForm, ...props }) => {
   const _initialValues = Object.assign(
     {},
     config.fields
@@ -16,14 +19,33 @@ export default ({ config, initialValues, onSubmit, renderSubmitButton, formRef, 
     initialValues || {}
   )
 
-  console.log('formRef', formRef)
-  
+  const _renderForm = renderForm
+    ? renderForm
+    : formikProps => {
+      const submitButton = renderSubmitButton
+        ? renderSubmitButton() // TODO: needs props (but which ones? how to programmatically submit?)
+        : <SubmitButton
+            disabled={
+              Object.keys(formikProps.errors).length > 0 ||
+              formikProps.isSubmitting
+            }
+            type="submit"
+          />
+
+      return (
+        <Form>
+          <Fields fields={config.fields} formikProps={formikProps} formProps={props} />
+          { formikProps.isSubmitting && <Loading /> }
+          {submitButton}
+        </Form>
+      )
+    }
+
   return (
     <Formik
       validateOnChange
       initialValues={_initialValues}
       validate={config.validate}
-      ref={formRef}
       onSubmit={
         onSubmit ||
         (values => {
@@ -31,29 +53,7 @@ export default ({ config, initialValues, onSubmit, renderSubmitButton, formRef, 
         })
       }
     >
-      {formikProps => {
-        const submitButton = renderSubmitButton
-          ? renderSubmitButton() // TODO: needs props (but which ones? how to programmatically submit?)
-          : <SubmitButton
-              disabled={
-                Object.keys(formikProps.errors).length > 0 ||
-                formikProps.isSubmitting
-              }
-              type="submit"
-            />
-
-        return (
-          <Form>
-            {config.fields.map(f => {
-              ok(f.name && f.type, 'fields require a name and a type')
-              return (
-                <Field key={f.name} field={f} {...formikProps} formProps={props} />
-              )
-            })}
-            {submitButton}
-          </Form>
-        )
-      }}
+      {_renderForm}
     </Formik>
   )
 }

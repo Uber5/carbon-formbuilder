@@ -26,6 +26,7 @@ module.exports = {
     'carbon-components-react': path.resolve(__dirname, 'node_modules/carbon-components-react'),
     'carbon-icons': path.resolve(__dirname, 'node_modules/carbon-icons'),
     'react-router-dom': path.resolve(__dirname, 'node_modules/react-router-dom'),
+    'u5-carbon-components-react': path.resolve(__dirname, 'node_modules/u5-carbon-components-react'),
   },
   require: [
     path.join(__dirname, 'node_modules/carbon-components/css/carbon-components.min.css')
