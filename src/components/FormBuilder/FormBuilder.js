@@ -2,6 +2,7 @@ import React from 'react'
 import { Formik, Form } from 'formik'
 import { Field, SubmitButton } from './fields'
 import { FormItem, FormGroup } from 'carbon-components-react'
+import { ok } from 'assert'
 
 export default ({ config, initialValues, onSubmit, ...props }) => {
   const _initialValues = Object.assign(
@@ -29,9 +30,12 @@ export default ({ config, initialValues, onSubmit, ...props }) => {
       {formikProps => {
         return (
           <Form>
-            {config.fields.map(f => (
-              <Field key={f.name} field={f} {...formikProps} formProps={props} />
-            ))}
+            {config.fields.map(f => {
+              ok(f.name && f.type, 'All fields require a name and a type')
+              return (
+                <Field key={f.name} field={f} {...formikProps} formProps={props} />
+              )
+            })}
             <SubmitButton
               disabled={
                 Object.keys(formikProps.errors).length > 0 ||

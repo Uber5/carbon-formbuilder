@@ -2,6 +2,8 @@ import React from 'react'
 import { Form, FormGroup, RadioButton, TextInput, NumberInput } from 'carbon-components-react'
 import { IconButton } from 'u5-carbon-components-react'
 
+import SelectOne from '../SelectOne'
+
 export const SubmitButton = props => <IconButton {...props}>Submit</IconButton>
 
 export const Field = ({ field, values, errors, touched, handleChange, handleBlur, formProps }) => {
@@ -72,19 +74,10 @@ export const Field = ({ field, values, errors, touched, handleChange, handleBlur
         />
       )
 
-    // case 'select-one':
-    //   return (
-    //     <SelectionControlGroup
-    //       id={field.name}
-    //       name={field.name}
-    //       label={field.label}
-    //       type="radio"
-    //       defaultValue="0"
-    //       value={values[field.name]}
-    //       onChange={(val, e) => handleChange(e)}
-    //       controls={field.options.map((o, i) => ({ label: o, value: o }))}
-    //     />
-    //   )
+    case 'select-one':
+      return (
+        <SelectOne {...field} formikProps={{ values, errors, touched, handleChange, handleBlur }}/>
+      )
 
     // case 'checkbox':
     //   return (
@@ -202,6 +195,6 @@ export const Field = ({ field, values, errors, touched, handleChange, handleBlur
     //   )
 
     default:
-      return `Unknown field type ${type}`
+      return <div>Unknown field type {type}</div>
   }
 }
