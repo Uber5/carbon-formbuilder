@@ -60,10 +60,10 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
     case 'text':
       return (
         <TextInput
-          name={field.name}
-          labelText={field.label}
+          name={name}
+          labelText={label}
           type="text"
-          value={values[field.name] || ''}
+          value={values[name] || ''}
           invalid={touched[name] && errors[name] !== undefined}
           invalidText={touched[name] && errors[name]}
           onBlur={handleBlur}

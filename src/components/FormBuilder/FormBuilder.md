@@ -42,6 +42,32 @@ const validate = values => {
 />
 ```
 
+## Form with initial values
+
+```js
+const fields = [
+  {
+    label: 'Some Field with initial value',
+    name: 'field1',
+    type: 'text'
+  }
+];
+
+const initialValues = {
+  field1: 'initial...'
+};
+
+<FormBuilder
+  config={{ fields }}
+  initialValues={initialValues}
+  onSubmit={(values, actions) => {
+    alert(`values: ${JSON.stringify(values)}`)
+    actions.setSubmitting(false)
+  }}
+/>
+
+```
+
 ## Form with email and password
 
 ```js
