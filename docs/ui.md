@@ -10,13 +10,13 @@ The form builder uses [Formik](https://www.npmjs.com/package/formik) to manage f
 
 Let's assume you've installed React and its peer dependencies previously:
 
-```
+```bash static
 npm install react react-dom
 ```
 
 ... then you can install formbuilder together with its peer dependencies:
 
-```
+```bash static
 npm install u5-carbon-formbuilder carbon-components \
   carbon-components-react carbon-icons u5-carbon-components-react \
   formik
