@@ -20,6 +20,11 @@ export default ({ name, label, options }) => {
   if (_options === null) {
     return <SelectSkeleton />
   } else {
-    return <p>select one, options={JSON.stringify(_options)}</p>
+    return <Select> 
+        {_options.map(option => 
+        (
+           <SelectItem value={option.val} text={option.name} > </SelectItem> 
+        )
+      )}  </Select> 
   }
 }

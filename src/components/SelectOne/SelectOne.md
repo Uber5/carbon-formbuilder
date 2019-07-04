@@ -4,13 +4,7 @@ Use this to select one value from a finite list of values.
 
 ```js
 import FormBuilder from '../FormBuilder';
-
-const fields = [
-  {
-    name: 'select1',
-    label: 'Select one element...',
-    type: 'select-one',
-    options: async () => {
+const options = async () => {
       await new Promise(res => setTimeout(res, 500))
       return [
         {
@@ -23,6 +17,13 @@ const fields = [
         },
       ]
     }
+
+const fields = [
+  {
+    name: 'select1',
+    label: 'Select one element...',
+    type: 'select-one',
+    options:options()
   }
 ];
 
