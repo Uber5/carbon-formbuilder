@@ -1,6 +1,8 @@
 Use this to select one value from a finite list of values.
 
-(component not ready yet, also need more doc here...)
+The `options` can be supplied in a function (with may resolve / be async), or as an array, see the example below.
+
+Groups of options are not supported yet, but may be added in a later release.
 
 ```js
 import FormBuilder from '../FormBuilder';
