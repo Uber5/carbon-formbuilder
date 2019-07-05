@@ -25,11 +25,24 @@ const fields = [
     label: 'Select one element...',
     type: 'select-one',
     options:options()
+  },
+  {
+    name: 'continent',
+    label: 'Select (2) (with default value)',
+    type: 'select-one',
+    options: [
+      { name: 'Europe', value: 'e' },
+      { name: 'Africa', value: 'a' }
+    ]
   }
 ];
 
-<FormBuilder config={{ fields }} onSubmit={(values, actions) => {
-  alert('submitted, values: ' + JSON.stringify(values))
-  actions.setSubmitting(false)
-}} />
+<FormBuilder
+  config={{ fields }}
+  initialValues={{ continent: 'a' }}
+  onSubmit={(values, actions) => {
+    alert('submitted, values: ' + JSON.stringify(values))
+    actions.setSubmitting(false)
+  }}
+/>
 ```
