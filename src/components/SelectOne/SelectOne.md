@@ -4,19 +4,20 @@ Use this to select one value from a finite list of values.
 
 ```js
 import FormBuilder from '../FormBuilder';
+
 const options = async () => {
-      await new Promise(res => setTimeout(res, 500))
-      return [
-        {
-          name: 'Option 1',
-          value: 'val1'
-        },
-        {
-          name: 'Option 2',
-          value: 'val2'
-        },
-      ]
-    }
+  await new Promise(res => setTimeout(res, 500))
+  return [
+    {
+      name: 'Option 1',
+      value: 'val1'
+    },
+    {
+      name: 'Option 2',
+      value: 'val2'
+    },
+  ]
+};
 
 const fields = [
   {
@@ -27,5 +28,8 @@ const fields = [
   }
 ];
 
-<FormBuilder config={{ fields }} />
+<FormBuilder config={{ fields }} onSubmit={(values, actions) => {
+  alert('submitted, values: ' + JSON.stringify(values))
+  actions.setSubmitting(false)
+}} />
 ```
