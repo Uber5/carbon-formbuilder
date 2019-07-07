@@ -74,7 +74,11 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
 
     case 'select-one':
       return (
-        <SelectOne {...field} formikProps={{ values, errors, touched, handleChange, handleBlur }}/>
+        <SelectOne
+          {...field}
+          formikProps={{ values, errors, touched, handleChange, handleBlur }}
+          formProps={formProps}
+        />
       )
 
     // case 'checkbox':

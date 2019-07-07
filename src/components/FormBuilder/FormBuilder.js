@@ -7,7 +7,8 @@ import { Loading } from 'carbon-components-react';
 
 const SubmitButton = props => <IconButton {...props}>Submit</IconButton>
 
-export default ({ config, initialValues, onSubmit, renderSubmitButton, renderForm, ...props }) => {
+export default props => {
+  const { config, initialValues, onSubmit, renderSubmitButton, renderForm, ...remainingProps } = props
   const _initialValues = Object.assign(
     {},
     config.fields
@@ -34,7 +35,7 @@ export default ({ config, initialValues, onSubmit, renderSubmitButton, renderFor
 
       return (
         <Form>
-          <Fields fields={config.fields} formikProps={formikProps} formProps={props} />
+          <Fields fields={config.fields} formikProps={formikProps} formProps={remainingProps} />
           { formikProps.isSubmitting && <Loading /> }
           {submitButton}
         </Form>
