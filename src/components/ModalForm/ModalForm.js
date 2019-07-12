@@ -13,7 +13,8 @@ export default ({
 }) => {
   const [ isOpen, setOpen ] = useState(false)
 
-  const onToggle = () => {
+  const onToggle = e => {
+    e.stopPropagation()
     setOpen(!isOpen)
   }
 
