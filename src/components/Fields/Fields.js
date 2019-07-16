@@ -1,11 +1,27 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, FormGroup, RadioButton, TextInput, NumberInput } from 'carbon-components-react'
 import { IconButton } from 'u5-carbon-components-react'
+import { Field as FormikField } from 'formik'
 
 import SelectOne from '../SelectOne'
 
-const Field = ({ field, values, errors, touched, handleChange, handleBlur, formProps }) => {
-  const { type, name, label, placeholder } = field
+const AUTOTOUCH_DELAY_MILLIS = 3000
+
+const Field = ({ field, values, errors, touched, setTouched, handleChange, handleBlur, formProps }) => {
+  
+  const { type, name, label, placeholder, validate, disableAutoTouch } = field
+
+  // we implement 'auto touch' to set a field touched after 3 secs of making
+  // the first change. TODO: should use debounce
+  const [ isChanged, setChanged ] = useState(false)
+  useEffect(() => {
+    if (isChanged && !disableAutoTouch) {
+      const timer = setTimeout(() => {
+        setTouched({ [name]: true })
+      }, AUTOTOUCH_DELAY_MILLIS)
+      return () => clearTimeout(timer)
+    }
+  }, [ isChanged, disableAutoTouch ])
 
   switch (type) {
     case 'email':
@@ -59,19 +75,28 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
 
     case 'text':
       return (
-        <TextInput
-          name={name}
-          labelText={label}
-          type="text"
-          value={values[name] || ''}
-          invalid={touched[name] && errors[name] !== undefined}
-          invalidText={touched[name] && errors[name]}
-          onBlur={handleBlur}
-          onChange={e => handleChange(e)}
-          placeholder={field.placeholder}
-        />
+        <FormikField validate={validate} name={name} >
+          {({ field }) => {
+            console.log('text field, touched[name], errors[name]', touched[name], errors[name])
+            return (
+              <TextInput
+                {...field}
+                labelText={label}
+                type="text"
+                // value={values[name] || ''}
+                invalid={touched[name] && errors[name] !== undefined}
+                invalidText={touched[name] && errors[name]}
+                onBlur={handleBlur}
+                onChange={e => {
+                  handleChange(e)
+                  setChanged(true)
+                }}
+                placeholder={placeholder}
+              />
+            )
+          }}
+        </FormikField>
       )
-
     case 'select-one':
       return (
         <SelectOne

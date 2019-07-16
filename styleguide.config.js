@@ -13,9 +13,22 @@ module.exports = {
   skipComponentsWithoutExample: true,
   sections: [
     {
-      name: 'UI Components',
+      name: 'U5 Formbuilder',
+      content: 'docs/intro.md',
+      exampleMode: 'expand', // 'hide' | 'collapse' | 'expand'
+      usageMode: 'expand' // 'hide' | 'collapse' | 'expand'
+    },
+    {
+      name: 'Form Components',
       content: 'docs/ui.md',
       components: 'src/components/**/[A-Z]*.js',
+      exampleMode: 'expand', // 'hide' | 'collapse' | 'expand'
+      usageMode: 'expand' // 'hide' | 'collapse' | 'expand'
+    },
+    {
+      name: 'Validation',
+      content: 'docs/validation.md',
+      // components: 'src/components/**/[A-Z]*.js',
       exampleMode: 'expand', // 'hide' | 'collapse' | 'expand'
       usageMode: 'expand' // 'hide' | 'collapse' | 'expand'
     }
@@ -29,7 +42,8 @@ module.exports = {
     'u5-carbon-components-react': path.resolve(__dirname, 'node_modules/u5-carbon-components-react'),
   },
   require: [
-    path.join(__dirname, 'node_modules/carbon-components/css/carbon-components.min.css')
+    path.join(__dirname, 'node_modules/carbon-components/css/carbon-components.min.css'),
+    path.join(__dirname, 'src/main.css')
   ],
   webpackConfig: {
     module: {

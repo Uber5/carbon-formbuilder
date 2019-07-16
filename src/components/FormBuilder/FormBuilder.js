@@ -44,7 +44,7 @@ export default props => {
 
   return (
     <Formik
-      validateOnChange
+      // validateOnChange
       initialValues={_initialValues}
       validate={config.validate}
       onSubmit={
@@ -53,6 +53,7 @@ export default props => {
           alert('No "onSubmit" provided, values: ' + JSON.stringify(values))
         })
       }
+      {...remainingProps}
     >
       {_renderForm}
     </Formik>
