@@ -7,9 +7,10 @@ import SelectOne from '../SelectOne'
 
 const AUTOTOUCH_DELAY_MILLIS = 3000
 
-const Field = ({ field, values, errors, touched, setTouched, handleChange, handleBlur, formProps }) => {
-  
-  const { type, name, label, placeholder, validate, disableAutoTouch } = field
+const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
+
+  const { values, errors, touched, setTouched, handleChange, handleBlur } = formikProps
+  const { type, name, label, placeholder, disableAutoTouch } = field
 
   // we implement 'auto touch' to set a field touched after 3 secs of making
   // the first change. TODO: should use debounce
@@ -75,27 +76,19 @@ const Field = ({ field, values, errors, touched, setTouched, handleChange, handl
 
     case 'text':
       return (
-        <FormikField validate={validate} name={name} >
-          {({ field }) => {
-            console.log('text field, touched[name], errors[name]', touched[name], errors[name])
-            return (
-              <TextInput
-                {...field}
-                labelText={label}
-                type="text"
-                // value={values[name] || ''}
-                invalid={touched[name] && errors[name] !== undefined}
-                invalidText={touched[name] && errors[name]}
-                onBlur={handleBlur}
-                onChange={e => {
-                  handleChange(e)
-                  setChanged(true)
-                }}
-                placeholder={placeholder}
-              />
-            )
+        <TextInput
+          {...formikField}
+          labelText={label}
+          type="text"
+          invalid={touched[name] && errors[name] !== undefined}
+          invalidText={touched[name] && errors[name]}
+          onBlur={handleBlur}
+          onChange={e => {
+            handleChange(e)
+            setChanged(true)
           }}
-        </FormikField>
+          placeholder={placeholder}
+        />
       )
     case 'select-one':
       return (
@@ -229,8 +222,15 @@ const Field = ({ field, values, errors, touched, setTouched, handleChange, handl
 const Fields = ({ fields, formikProps, formProps }) => {
   return <>
     {
-      fields.map(f => (
-        <Field key={f.name} field={f} {...formikProps} formProps={formProps} />
+      fields.map(_field => (
+        <FormikField key={_field.name} validate={_field.validate} name={_field.name}>
+          {({ field }) => <AutoTouchField
+            field={_field}
+            formikField={field}
+            formikProps={formikProps}
+            formProps={formProps}
+          />}
+        </FormikField>
       ))
     }
   </>
