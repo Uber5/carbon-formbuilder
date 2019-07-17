@@ -9,6 +9,7 @@ for (const c of carbonComponents) {
 }
 
 module.exports = {
+  serverPort: 6070,
   styleguideDir: 'docs',
   skipComponentsWithoutExample: true,
   sections: [
