@@ -7,6 +7,15 @@ import SelectOne from '../SelectOne'
 
 const AUTOTOUCH_DELAY_MILLIS = 3000
 
+const defaultValidationByFieldType = {
+  email: value => {
+    if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(value)) {
+      return 'Invalid email address'
+    }
+    return undefined
+  }
+}
+
 const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
 
   const { values, errors, touched, setTouched, handleChange, handleBlur } = formikProps
@@ -38,6 +47,7 @@ const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
           onChange={e => {
             e.stopPropagation()
             handleChange(e)
+            setChanged(true)
           }}
           placeholder={placeholder}
         />
@@ -223,7 +233,11 @@ const Fields = ({ fields, formikProps, formProps }) => {
   return <>
     {
       fields.map(_field => (
-        <FormikField key={_field.name} validate={_field.validate} name={_field.name}>
+        <FormikField
+          key={_field.name}
+          name={_field.name}
+          validate={_field.validate || defaultValidationByFieldType[_field.type]}
+        >
           {({ field }) => <AutoTouchField
             field={_field}
             formikField={field}

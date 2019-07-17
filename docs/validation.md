@@ -4,7 +4,10 @@ Validation is leveraging [Formik's validation](https://jaredpalmer.com/formik/do
 1. field level validation
 2. form level validation
 
-Field level validation is enabled by passing a `validate` property:
+
+## Field Level Validation
+
+Field level validation is enabled by passing a `validate` property (the example does email validation, but note that it's easier to use the field *type* `email` for that):
 
 ```js
 import FormBuilder from '../src/components/FormBuilder';
@@ -35,6 +38,34 @@ const initialValues = {
 <FormBuilder
   config={{ fields }}
   initialValues={initialValues}
+  onSubmit={(values, actions) => {
+    alert(`values: ${JSON.stringify(values)}`)
+    actions.setSubmitting(false)
+  }}
+/>
+```
+
+## Form Level Validation
+
+...
+
+## Built-In Validation
+
+### Email
+
+```js
+import FormBuilder from '../src/components/FormBuilder';
+
+const fields = [
+  {
+    label: 'Email',
+    name: 'email',
+    type: 'email'
+  }
+];
+
+<FormBuilder
+  config={{ fields }}
   onSubmit={(values, actions) => {
     alert(`values: ${JSON.stringify(values)}`)
     actions.setSubmitting(false)
