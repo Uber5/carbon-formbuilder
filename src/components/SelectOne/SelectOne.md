@@ -27,5 +27,11 @@ const fields = [
   }
 ];
 
-<FormBuilder config={{ fields }} />
+<FormBuilder
+  config={{ fields }}
+  onSubmit={(values, actions) => {
+    alert(`values: ${JSON.stringify(values)}`)
+    actions.setSubmitting(false);
+  }}
+/>
 ```

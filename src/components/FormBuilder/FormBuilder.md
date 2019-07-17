@@ -104,7 +104,6 @@ const validate = values => {
 
   return errors
 };
-
 <FormBuilder
   config={{ fields, validate }}
   onSubmit={(values, actions) => {
@@ -112,5 +111,34 @@ const validate = values => {
     actions.setSubmitting(false);
   }}
 />
+```
+<!-- ## Form with date 
+
+```js
+const fields = [
+  {
+    label: 'date',
+    name: 'someDate',
+    type: 'date'
+  }
+];
+const validate = values => {
+  const errors = {}
+  const { someDate } = values
+
+  // validate someEmail
+  if (!someDate) {
+    errors.someDate = 'Required'
+  } else if (!/^(0[1-9]|1[0-2])\/((0[1-9]|2\d)|3[0-1])\/(19\d\d|200[0-3])$/i.test(someDate)) {
+    errors.someDate = 'Invalid date format'
+  }
+
+<FormBuilder
+  config={{ fields}}
+  onSubmit={(values, actions) => {
+    alert(`values: ${JSON.stringify(values)}`)
+    actions.setSubmitting(false);
+  }}
+/> -->
 
 ```

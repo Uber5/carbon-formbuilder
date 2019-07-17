@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, FormGroup, RadioButton, TextInput, NumberInput } from 'carbon-components-react'
+import { Form, FormGroup, RadioButton, TextInput, NumberInput, DatePicker ,DatePickerInput} from 'carbon-components-react'
 import { IconButton } from 'u5-carbon-components-react'
 
 import SelectOne from '../SelectOne'
@@ -42,7 +42,22 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
           placeholder={placeholder}
         />
       )
-
+    case 'date': // TODO: This doesn't update formik input
+      return (
+        <DatePicker id="date-picker" datePickerType="single">
+          <DatePickerInput
+            id={field.name}
+            name={field.name}
+            label={field.label}
+            value={values[field.name]}
+            fullWidth={false}
+            labelText="Date Picker label"
+            placeholder="mm/dd/yyyy"
+            onChange={(val, e) => handleChange(e)}
+          />
+        </DatePicker>
+      )
+    
     case 'number':
       return (
         <NumberInput
@@ -76,6 +91,8 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
       return (
         <SelectOne {...field} formikProps={{ values, errors, touched, handleChange, handleBlur }}/>
       )
+
+
 
     // case 'checkbox':
     //   return (
@@ -177,21 +194,7 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
     //       </List>
     //     </React.Fragment>
     //   )
-
-    // case 'date': // TODO: This doesn't update formik input
-    //   return (
-    //     <DatePicker
-    //       id={field.name}
-    //       name={field.name}
-    //       label={field.label}
-    //       value={values[field.name]}
-    //       inline
-    //       displayMode="portrait"
-    //       fullWidth={false}
-    //       onChange={(val, e) => handleChange(e)}
-    //     />
-    //   )
-
+    
     default:
       return <div>Unknown field type {type}</div>
   }
