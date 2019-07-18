@@ -43,20 +43,26 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, setFi
         />
       )
     case 'date': // TODO: This doesn't update formik input
-      const dateValue = values[name] ? values[name] : null
       return (
         <DatePicker name={name} datePickerType="single"
           onChange={value => {
-            console.log('DatePicker, handleChange, e', value)
             const dateValue = value[0] // TODO: why do we get an array? Must check carbon react components more
-            setFieldValue(name, dateValue, false) // TODO: validate or not?
+            const dateParts = {
+              year: dateValue.getFullYear(),
+              month: dateValue.getMonth() + 1,
+              day: dateValue.getDate() 
+            }
+            const newDate = `${dateParts.year}-${dateParts.month > 9 ? '' : '0'}${dateParts.month}-${dateParts.day > 9 ? '' : '0'}${dateParts.day}`
+            console.log('date from dateValue',newDate)
+            setFieldValue(name, newDate, false) // TODO: validate or not?
           }}
         >
           <DatePickerInput
-            value={dateValue ? `0${dateValue.getMonth()}/${dateValue.getDate()}/${dateValue.getFullYear()}` : ''}
+            value={values[name] ? values[name] : null}
             type='text'
             fullWidth={false}
             labelText={label}
+            pattern='\d{4}-\d{1,2}-\d{1,2}'
             // placeholder="yyyy-mm-dd"
             onChange={e => {
               console.log('e', e)
