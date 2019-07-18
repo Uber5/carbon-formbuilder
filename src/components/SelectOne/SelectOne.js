@@ -1,11 +1,13 @@
 import React, { useEffect, useState }  from 'react'
 import { Select, SelectItem, SelectSkeleton } from 'carbon-components-react'
+import { useField } from 'formik'
 import { ok } from 'assert'
 
-export default ({ name, label, options }) => {
+export default ({ name, label, options, formikProps }) => {
 
   const [ _options, setOptions ] = useState(null)
-
+  const { handleChange, values } = formikProps
+  
   ok(options, `Missing options for field ${name}`)
 
   useEffect(() => {
@@ -17,14 +19,21 @@ export default ({ name, label, options }) => {
       setOptions(options)
     })
   })
+
   if (_options === null) {
     return <SelectSkeleton />
   } else {
-    return <Select> 
-        {_options.map(option => 
+    return <Select
+      name={name}
+      hideLabel
+      defaultValue={values[name]}
+      onChange={handleChange}
+    >
+      <SelectItem value={''} text={label} />
+      {_options.map(option =>
         (
-           <SelectItem value={option.val} text={option.name} > </SelectItem> 
+          <SelectItem key={option.value} value={option.value} text={option.name} > </SelectItem>
         )
-      )}  </Select> 
+      )}  </Select>
   }
 }

@@ -44,7 +44,7 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
-    "carbon-components": "^10.3.0",
+    "carbon-components": "^10.3.2",
     "carbon-components-react": "^7.3.2",
     "carbon-icons": "^7.0.7",
     "css-loader": "^3.0.0",
