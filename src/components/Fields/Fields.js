@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, FormGroup, RadioButton, TextInput, NumberInput, DatePicker ,DatePickerInput} from 'carbon-components-react'
+import { Form, FormGroup, RadioButton, TextInput, NumberInput, DatePicker, DatePickerInput } from 'carbon-components-react'
 import { IconButton } from 'u5-carbon-components-react'
 
 import SelectOne from '../SelectOne'
@@ -46,18 +46,18 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
       return (
         <DatePicker id="date-picker" datePickerType="single">
           <DatePickerInput
-            id={field.name}
-            name={field.name}
-            label={field.label}
-            value={values[field.name]}
+            name={name}
+            label={label}
+            value={values[name] || 0}
+            type='date'
             fullWidth={false}
             labelText="Date Picker label"
             placeholder="mm/dd/yyyy"
-            onChange={(val, e) => handleChange(e)}
+            onChange={e => handleChange(e)}
           />
         </DatePicker>
       )
-    
+
     case 'number':
       return (
         <NumberInput
@@ -89,7 +89,7 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
 
     case 'select-one':
       return (
-        <SelectOne {...field} formikProps={{ values, errors, touched, handleChange, handleBlur }}/>
+        <SelectOne {...field} formikProps={{ values, errors, touched, handleChange, handleBlur }} />
       )
 
 
@@ -194,7 +194,7 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
     //       </List>
     //     </React.Fragment>
     //   )
-    
+
     default:
       return <div>Unknown field type {type}</div>
   }
