@@ -4,7 +4,7 @@ import { IconButton } from 'u5-carbon-components-react'
 
 import SelectOne from '../SelectOne'
 
-const Field = ({ field, values, errors, touched, handleChange, handleBlur, formProps }) => {
+const Field = ({ field, values, errors, touched, handleChange, handleBlur, setFieldValue, formProps }) => {
   const { type, name, label, placeholder } = field
 
   switch (type) {
@@ -43,17 +43,25 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
         />
       )
     case 'date': // TODO: This doesn't update formik input
+      const dateValue = values[name] ? values[name] : null
       return (
-        <DatePicker id="date-picker" datePickerType="single">
+        <DatePicker name={name} datePickerType="single"
+          onChange={value => {
+            console.log('DatePicker, handleChange, e', value)
+            const dateValue = value[0] // TODO: why do we get an array? Must check carbon react components more
+            setFieldValue(name, dateValue, false) // TODO: validate or not?
+          }}
+        >
           <DatePickerInput
-            name={name}
-            label={label}
-            value={values[name] || 0}
-            type='date'
+            value={dateValue ? `0${dateValue.getMonth()}/${dateValue.getDate()}/${dateValue.getFullYear()}` : ''}
+            type='text'
             fullWidth={false}
-            labelText="Date Picker label"
-            placeholder="mm/dd/yyyy"
-            onChange={e => handleChange(e)}
+            labelText={label}
+            // placeholder="yyyy-mm-dd"
+            onChange={e => {
+              console.log('e', e)
+              handleChange(e)
+            }}
           />
         </DatePicker>
       )

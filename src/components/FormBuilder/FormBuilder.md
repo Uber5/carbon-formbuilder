@@ -112,13 +112,13 @@ const validate = values => {
   }}
 />
 ```
- ##Form with date 
+## Form with date 
 
 ```js
 const fields = [
   {
-    label: 'mm/dd/yyyy',
-    name: 'date',
+    label: 'Some date',
+    name: 'someDate',
     type: 'date'
   }
 ];
