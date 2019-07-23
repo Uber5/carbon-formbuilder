@@ -4,7 +4,8 @@ import { IconButton } from 'u5-carbon-components-react'
 
 import SelectOne from '../SelectOne'
 
-const Field = ({ field, values, errors, touched, handleChange, handleBlur, setFieldValue, formProps }) => {
+const Field = props => {
+  const { field, values, errors, touched, handleChange, handleBlur, setFieldValue, formProps } = props
   const { type, name, label, placeholder } = field
 
   switch (type) {
@@ -42,7 +43,7 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, setFi
           placeholder={placeholder}
         />
       )
-    case 'date': // TODO: This doesn't update formik input
+    case 'date':
       return (
         <DatePicker name={name} datePickerType="single"
           onChange={value => {
@@ -58,14 +59,14 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, setFi
           }}
         >
           <DatePickerInput
+            name={name}
             value={values[name] ? values[name] : null}
             type='text'
             fullWidth={false}
             labelText={label}
             pattern='\d{4}-\d{1,2}-\d{1,2}'
-            // placeholder="yyyy-mm-dd"
+            placeholder="yyyy-mm-dd"
             onChange={e => {
-              console.log('e', e)
               handleChange(e)
             }}
           />
