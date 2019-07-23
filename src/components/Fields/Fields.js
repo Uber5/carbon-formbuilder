@@ -1,11 +1,38 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, FormGroup, RadioButton, TextInput, NumberInput } from 'carbon-components-react'
 import { IconButton } from 'u5-carbon-components-react'
+import { Field as FormikField } from 'formik'
 
 import SelectOne from '../SelectOne'
+import SimpleDate from '../SimpleDate'
 
-const Field = ({ field, values, errors, touched, handleChange, handleBlur, formProps }) => {
-  const { type, name, label, placeholder } = field
+const AUTOTOUCH_DELAY_MILLIS = 3000
+
+const defaultValidationByFieldType = {
+  email: value => {
+    if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i.test(value)) {
+      return 'Invalid email address'
+    }
+    return undefined
+  }
+}
+
+const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
+
+  const { values, errors, touched, handleChange, handleBlur, setTouched } = formikProps
+  const { type, name, label, placeholder, disableAutoTouch } = field
+
+  // we implement 'auto touch' to set a field touched after 3 secs of making
+  // the first change. TODO: should use debounce
+  const [ isChanged, setChanged ] = useState(false)
+  useEffect(() => {
+    if (isChanged && !disableAutoTouch) {
+      const timer = setTimeout(() => {
+        setTouched({ [name]: true })
+      }, AUTOTOUCH_DELAY_MILLIS)
+      return () => clearTimeout(timer)
+    }
+  }, [ isChanged, disableAutoTouch ])
 
   switch (type) {
     case 'email':
@@ -21,6 +48,7 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
           onChange={e => {
             e.stopPropagation()
             handleChange(e)
+            setChanged(true)
           }}
           placeholder={placeholder}
         />
@@ -42,7 +70,8 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
           placeholder={placeholder}
         />
       )
-
+    case 'date':
+      return <SimpleDate field={field} formikProps={formikProps} />
     case 'number':
       return (
         <NumberInput
@@ -60,21 +89,26 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
     case 'text':
       return (
         <TextInput
-          name={name}
+          {...formikField}
           labelText={label}
           type="text"
-          value={values[name] || ''}
           invalid={touched[name] && errors[name] !== undefined}
           invalidText={touched[name] && errors[name]}
           onBlur={handleBlur}
-          onChange={e => handleChange(e)}
-          placeholder={field.placeholder}
+          onChange={e => {
+            handleChange(e)
+            setChanged(true)
+          }}
+          placeholder={placeholder}
         />
       )
-
     case 'select-one':
       return (
-        <SelectOne {...field} formikProps={{ values, errors, touched, handleChange, handleBlur }}/>
+        <SelectOne
+          {...field}
+          formikProps={{ values, errors, touched, handleChange, handleBlur }}
+          formProps={formProps}
+        />
       )
 
     // case 'checkbox':
@@ -178,20 +212,6 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
     //     </React.Fragment>
     //   )
 
-    // case 'date': // TODO: This doesn't update formik input
-    //   return (
-    //     <DatePicker
-    //       id={field.name}
-    //       name={field.name}
-    //       label={field.label}
-    //       value={values[field.name]}
-    //       inline
-    //       displayMode="portrait"
-    //       fullWidth={false}
-    //       onChange={(val, e) => handleChange(e)}
-    //     />
-    //   )
-
     default:
       return <div>Unknown field type {type}</div>
   }
@@ -200,8 +220,19 @@ const Field = ({ field, values, errors, touched, handleChange, handleBlur, formP
 const Fields = ({ fields, formikProps, formProps }) => {
   return <>
     {
-      fields.map(f => (
-        <Field key={f.name} field={f} {...formikProps} formProps={formProps} />
+      fields.map(_field => (
+        <FormikField
+          key={_field.name}
+          name={_field.name}
+          validate={_field.validate || defaultValidationByFieldType[_field.type]}
+        >
+          {({ field }) => <AutoTouchField
+            field={_field}
+            formikField={field}
+            formikProps={formikProps}
+            formProps={formProps}
+          />}
+        </FormikField>
       ))
     }
   </>

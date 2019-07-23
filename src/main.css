@@ -1,0 +1,14 @@
+/* TODO: Previously, text input  wrapper had 100% width,
+   is it acceptable for us to do it this way? */
+   .bx--text-input__field-wrapper, .bx--select, .bx--select-input, .bx--number {
+    width: 100%;
+  }
+  
+  .bx--select-input {
+    max-width: 100%;
+  }
+  
+  .bx--form-item {
+    margin-top: .75rem;
+  }
+  
