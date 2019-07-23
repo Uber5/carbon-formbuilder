@@ -52,17 +52,25 @@ export default ({ name, label, options, useOptionsFn, optionsFn, formikProps, fo
   if (_options === null) {
     return <SelectSkeleton />
   } else {
-    return <Select
-      name={name}
-      hideLabel
-      defaultValue={values[name]}
-      onChange={handleChange}
-    >
-      <SelectItem value={''} text={label} />
-      {_options.map(option =>
-        (
-          <SelectItem key={option.value} value={option.value} text={option.name} > </SelectItem>
-        )
-      )}  </Select>
+    return (
+      <Select
+        name={name}
+        labelText={label}
+        defaultValue={values[name] || "placeholder-item"}
+        onChange={handleChange}
+      >
+        <SelectItem
+          disabled
+          hidden
+          value="placeholder-item"
+          text="Choose one..."
+        />
+        {
+          _options.map(option => (
+              <SelectItem key={option.value} value={option.value} text={option.name} > </SelectItem>
+          ))
+        }  
+      </Select>
+    )
   }
 }

@@ -4,6 +4,7 @@ import { IconButton } from 'u5-carbon-components-react'
 import { Field as FormikField } from 'formik'
 
 import SelectOne from '../SelectOne'
+import SimpleDate from '../SimpleDate'
 
 const AUTOTOUCH_DELAY_MILLIS = 3000
 
@@ -18,7 +19,7 @@ const defaultValidationByFieldType = {
 
 const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
 
-  const { values, errors, touched, setTouched, handleChange, handleBlur } = formikProps
+  const { values, errors, touched, handleChange, handleBlur, setTouched } = formikProps
   const { type, name, label, placeholder, disableAutoTouch } = field
 
   // we implement 'auto touch' to set a field touched after 3 secs of making
@@ -69,7 +70,8 @@ const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
           placeholder={placeholder}
         />
       )
-
+    case 'date':
+      return <SimpleDate field={field} formikProps={formikProps} />
     case 'number':
       return (
         <NumberInput
@@ -208,20 +210,6 @@ const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
     //         ))}
     //       </List>
     //     </React.Fragment>
-    //   )
-
-    // case 'date': // TODO: This doesn't update formik input
-    //   return (
-    //     <DatePicker
-    //       id={field.name}
-    //       name={field.name}
-    //       label={field.label}
-    //       value={values[field.name]}
-    //       inline
-    //       displayMode="portrait"
-    //       fullWidth={false}
-    //       onChange={(val, e) => handleChange(e)}
-    //     />
     //   )
 
     default:
