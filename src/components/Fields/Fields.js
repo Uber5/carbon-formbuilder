@@ -1,8 +1,9 @@
 import React from 'react'
-import { Form, FormGroup, RadioButton, TextInput, NumberInput, DatePicker, DatePickerInput } from 'carbon-components-react'
+import { Form, FormGroup, RadioButton, TextInput, NumberInput } from 'carbon-components-react'
 import { IconButton } from 'u5-carbon-components-react'
 
 import SelectOne from '../SelectOne'
+import SimpleDate from '../SimpleDate'
 
 const Field = props => {
   const { field, values, errors, touched, handleChange, handleBlur, setFieldValue, formProps } = props
@@ -44,35 +45,7 @@ const Field = props => {
         />
       )
     case 'date':
-      return (
-        <DatePicker name={name} datePickerType="single"
-          onChange={value => {
-            const dateValue = value[0] // TODO: why do we get an array? Must check carbon react components more
-            const dateParts = {
-              year: dateValue.getFullYear(),
-              month: dateValue.getMonth() + 1,
-              day: dateValue.getDate() 
-            }
-            const newDate = `${dateParts.year}-${dateParts.month > 9 ? '' : '0'}${dateParts.month}-${dateParts.day > 9 ? '' : '0'}${dateParts.day}`
-            console.log('date from dateValue',newDate)
-            setFieldValue(name, newDate, false) // TODO: validate or not?
-          }}
-        >
-          <DatePickerInput
-            name={name}
-            value={values[name] ? values[name] : null}
-            type='text'
-            fullWidth={false}
-            labelText={label}
-            pattern='\d{4}-\d{1,2}-\d{1,2}'
-            placeholder="yyyy-mm-dd"
-            onChange={e => {
-              handleChange(e)
-            }}
-          />
-        </DatePicker>
-      )
-
+      return <SimpleDate {...props} />
     case 'number':
       return (
         <NumberInput
