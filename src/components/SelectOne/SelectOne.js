@@ -22,22 +22,26 @@ export default ({ name, label, options, formikProps }) => {
   if (_options === null) {
     return <SelectSkeleton />
   } else {
-    return <div>
-      <div >
-        {name}
-      </div>
-    <Select
-      name={name}
-      hideLabel
-      defaultValue={values[name]}
-      onChange={handleChange}
+    return (
+      <Select
+        name={name}
+        hideLabel
+        // helperText={label}
+        defaultValue={values[name] || "placeholder-item"}
+        onChange={handleChange}
       >
-      {_options.map(option =>
-        (
-          <SelectItem key={option.value} value={option.value} text={option.name} > </SelectItem>
-        )
-      )}  
+        <SelectItem
+          disabled
+          hidden
+          value="placeholder-item"
+          text={label}
+        />
+        {
+          _options.map(option => (
+              <SelectItem key={option.value} value={option.value} text={option.name} > </SelectItem>
+          ))
+        }  
       </Select>
-      </div>
+    )
   }
 }
