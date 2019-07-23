@@ -25,8 +25,7 @@ export default ({ name, label, options, formikProps }) => {
     return (
       <Select
         name={name}
-        hideLabel
-        // helperText={label}
+        labelText={label}
         defaultValue={values[name] || "placeholder-item"}
         onChange={handleChange}
       >
@@ -34,7 +33,7 @@ export default ({ name, label, options, formikProps }) => {
           disabled
           hidden
           value="placeholder-item"
-          text={label}
+          text="Choose one..."
         />
         {
           _options.map(option => (
