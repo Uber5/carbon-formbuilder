@@ -47,6 +47,49 @@ const fields = [
 />
 ```
 
+### Searchable Options
+
+By specifying `searchable: true`, options become searchable. This is useful when the list of options grows large.
+
+```js
+import FormBuilder from '../FormBuilder';
+
+// generates random names with spaces
+const randomName = (length = 20) => {
+  const name = []
+  alphabet = '       abcdefghijklmnopqrstuvwz'
+  while (name.length < length) {
+    name.push(alphabet[Math.floor(Math.random() * alphabet.length)])
+  }
+  return name.join('')
+}
+
+// get ourselves 100 random options, value is (index+1)
+const options = []
+while (options.length < 100) {
+  options.push({ name: randomName(), value: (options.length + 1) })
+}
+
+const fields = [
+  {
+    name: 'sampleField',
+    label: 'Sample Field',
+    type: 'select-one',
+    searchable: true,
+    options
+  },
+];
+
+<FormBuilder
+  config={{ fields }}
+  onSubmit={(values, actions) => {
+    alert('submitted, values: ' + JSON.stringify(values))
+    actions.setSubmitting(false)
+  }}
+/>
+```
+
+
 ### Providing options via a function
 
 We can also specify a function for the options, `optionsFn`:

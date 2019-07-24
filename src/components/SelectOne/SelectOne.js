@@ -1,5 +1,5 @@
 import React, { useEffect, useState }  from 'react'
-import { Select, SelectItem, SelectSkeleton } from 'carbon-components-react'
+import { Select, SelectItem, SelectSkeleton, ComboBox } from 'carbon-components-react'
 import { ok } from 'assert'
 
 const evalExports = (code, requireFn, globals = {}) => {
@@ -24,12 +24,11 @@ const applyWithProps = (
   return _exports.default(props)
 }
 
-export default ({ name, label, options, useOptionsFn, optionsFn, formikProps, formProps }) => {
+export default ({ name, label, options, searchable, useOptionsFn, optionsFn, formikProps, formProps }) => {
 
   const [ _options, setOptions ] = useState(null)
-  const { handleChange, values } = formikProps
+  const { handleChange, values, setFieldValue } = formikProps
   
-
   useEffect(() => {
     if (useOptionsFn === true) {
       ok(
@@ -59,6 +58,19 @@ export default ({ name, label, options, useOptionsFn, optionsFn, formikProps, fo
 
   if (_options === null) {
     return <SelectSkeleton />
+  } else if (searchable) {
+    return (
+      <ComboBox
+        name={name}
+        titleText={label}
+        items={_options}
+        itemToString={item => item ? item.name : ''}
+        shouldFilterItem={() => true}
+        onChange={({ selectedItem }) => {
+          setFieldValue(name, selectedItem ? selectedItem.value : null)
+        }}
+      />
+    )
   } else {
     return (
       <Select

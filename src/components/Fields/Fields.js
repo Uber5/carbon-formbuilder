@@ -106,7 +106,7 @@ const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
       return (
         <SelectOne
           {...field}
-          formikProps={{ values, errors, touched, handleChange, handleBlur }}
+          formikProps={formikProps}
           formProps={formProps}
         />
       )
