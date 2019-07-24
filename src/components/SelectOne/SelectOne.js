@@ -1,60 +1,11 @@
 import React, { useEffect, useState }  from 'react'
 import { Select, SelectItem, SelectSkeleton, ComboBox } from 'carbon-components-react'
-import { ok } from 'assert'
-
-const evalExports = (code, requireFn, globals = {}) => {
-  const fn = Function.apply(null, [ 'exports', 'require', ...Object.keys(globals), code])
-  console.log('fn', fn)
-  const _exports = {}
-  fn.apply(null, [ _exports, requireFn , ...Object.values(globals) ])
-  console.log('_exports', _exports)
-  return _exports
-}
-
-const applyWithProps = (
-  code,
-  props,
-  _require = dep => { throw new Error(`_require not supported yet, dep=${dep}`) },
-  globals = {}
-) => {
-  const _exports = evalExports(code, _require, globals)
-  if (!_exports.default || typeof _exports.default !== 'function') {
-    throw new Error('Invalid code, no default export or default is not a function.')
-  }
-  return _exports.default(props)
-}
+import useOptions from '../../lib/useOptions'
 
 export default ({ name, label, options, searchable, useOptionsFn, optionsFn, formikProps, formProps }) => {
 
-  const [ _options, setOptions ] = useState(null)
   const { handleChange, values, setFieldValue } = formikProps
-  
-  useEffect(() => {
-    if (useOptionsFn === true) {
-      ok(
-        optionsFn && optionsFn.code,
-        `Field ${name}, no "optionsFn" with property "code" provided, but useOptionsFn === true.`
-      )
-      Promise.resolve(applyWithProps(optionsFn.code, formProps)).then(optionsViaFn => {
-        ok(
-          optionsViaFn instanceof Array,
-          `Field ${name}, optionsFn must resolve to an array.`
-        )
-        setOptions(optionsViaFn)
-      })
-    } else if (typeof options === 'function') {
-      Promise.resolve(applyWithProps(options, formProps)).then(resolvedOptions => {
-        ok(
-          resolvedOptions instanceof Array,
-          `Field ${name}, options (if function) must resolve to an array. (legacy)`
-        )
-        setOptions(resolvedOptions)
-      })
-    } else {
-      ok(options instanceof Array, `Field ${name}, options must be an array.`)
-      setOptions(options)
-    }
-  }, [ options, useOptionsFn, optionsFn ])
+  const _options = useOptions({ options, useOptionsFn, optionsFn, formProps })
 
   if (_options === null) {
     return <SelectSkeleton />

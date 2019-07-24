@@ -4,6 +4,7 @@ import { IconButton } from 'u5-carbon-components-react'
 import { Field as FormikField } from 'formik'
 
 import SelectOne from '../SelectOne'
+import SelectMulti from '../SelectMulti'
 import SimpleDate from '../SimpleDate'
 
 const AUTOTOUCH_DELAY_MILLIS = 3000
@@ -105,6 +106,15 @@ const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
     case 'select-one':
       return (
         <SelectOne
+          {...field}
+          formikProps={formikProps}
+          formProps={formProps}
+        />
+      )
+
+    case 'select-multi':
+      return (
+        <SelectMulti
           {...field}
           formikProps={formikProps}
           formProps={formProps}
