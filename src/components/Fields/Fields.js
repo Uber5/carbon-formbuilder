@@ -6,6 +6,7 @@ import { Field as FormikField } from 'formik'
 import SelectOne from '../SelectOne'
 import SelectMulti from '../SelectMulti'
 import SimpleDate from '../SimpleDate'
+import AutoLocation from '../AutoLocation'
 
 const AUTOTOUCH_DELAY_MILLIS = 3000
 
@@ -72,7 +73,9 @@ const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
         />
       )
     case 'date':
-      return <SimpleDate field={field} formikProps={formikProps} />
+      return <SimpleDate {...props} />
+    case 'select-location':
+      return <AutoLocation {...props}/>
     case 'number':
       return (
         <NumberInput
