@@ -56,7 +56,21 @@ const googlePlaceToFields = googlePlace => {
 export default class PlacesSearchField extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { address: "" }
+    this.state = { address: "" , gmapsLoaded: false , location: '(no location chosen)'}
+  }
+
+  componentDidMount () {
+    if (window.initMap !== undefined){
+      return
+    }
+    window.initMap = () => {
+      this.setState({
+        gmapsLoaded: true,
+      })
+    }
+    const gmapScriptEl = document.createElement(`script`)
+    gmapScriptEl.src = `https://maps.googleapis.com/maps/api/js?key=${this.props.field.key}&libraries=places&callback=initMap`
+    document.querySelector(`body`).insertAdjacentElement(`beforeend`, gmapScriptEl)
   }
 
   render() {
@@ -91,8 +105,11 @@ export default class PlacesSearchField extends React.Component {
             })
         }
     }
-    
+    const {gmapsLoaded} = this.state
     return (
+      <div>
+      { gmapsLoaded && (
+      
       <PlacesAutocomplete
         value={address}
         debounce={500}
@@ -116,18 +133,24 @@ export default class PlacesSearchField extends React.Component {
             <ComboBox
               {...others}
               {...inputProps}
-              onChange={(_, e) => inputProps.onChange(e)}
+              // onChange={(_, e) => inputProps.onChange(e)}
               // following is a particularly naughty hack the effect of which is to make an "Enter"
               // keypress in the text field equivalent to selecting the first autocomplete option.
-              onKeyDown={e => {
+              onInputChange={e => {
                 if (e.key === "Enter" && suggestions.length > 0) {
                   clickHandlers[0]()
                 } else {
-                  inputProps.onKeyDown(e)
+                  inputProps.onInputChange(e)
                 }
               }}
+              items={[
+              ]}
               placeholder="Filter..."
-              onAutocomplete={(_, idx) => clickHandlers[idx]()}
+              // onAutocomplete={(_, idx) => clickHandlers[idx]()}
+              onChange={place => {
+                console.log('place', place)
+                this.setState({ location: JSON.stringify(place)})
+              }}
               dataLabel="description"
               data={suggestionsData}
               filter={null}
@@ -135,6 +158,8 @@ export default class PlacesSearchField extends React.Component {
           )
         }}
       </PlacesAutocomplete>
+      )}
+      </div>
     )
   }
 }
