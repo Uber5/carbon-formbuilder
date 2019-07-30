@@ -10,7 +10,7 @@ const fields = [
     name: 'select1',
     label: 'Select one element...',
     type: 'select-location',
-    key: 'AIzaSyBZVNbT33qo5_TPCGEUrVZvcDos3u3h0kI'
+    key: 'AIzaSyBNM-zWwvvpbql_--TOcI_qpbURllpu4aY'
   }
 ];
 
