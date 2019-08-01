@@ -7,6 +7,7 @@ import SelectOne from '../SelectOne'
 import SelectMulti from '../SelectMulti'
 import SimpleDate from '../SimpleDate'
 import AutoLocation from '../AutoLocation'
+import PhoneNumber from '../PhoneNumber'
 
 const AUTOTOUCH_DELAY_MILLIS = 3000
 
@@ -125,6 +126,9 @@ const AutoTouchField = props => {
           formProps={formProps}
         />
       )
+    case 'phone-number':
+      return <PhoneNumber {...props} />
+
 
     // case 'checkbox':
     //   return (
