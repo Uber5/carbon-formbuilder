@@ -23,7 +23,8 @@ const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
 
   const { values, errors, touched, handleChange, handleBlur, setTouched } = formikProps
   const { type, name, label, placeholder, disableAutoTouch } = field
-
+  const { pluginFieldTypes } = formProps
+  
   // we implement 'auto touch' to set a field touched after 3 secs of making
   // the first change. TODO: should use debounce
   const [ isChanged, setChanged ] = useState(false)
@@ -226,6 +227,9 @@ const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
     //   )
 
     default:
+      if (pluginFieldTypes && pluginFieldTypes[type]) {
+        return pluginFieldTypes[type].render(props)
+      }
       return <div>Unknown field type {type}</div>
   }
 }

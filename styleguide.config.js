@@ -29,7 +29,10 @@ module.exports = {
     {
       name: 'Validation',
       content: 'docs/validation.md',
-      // components: 'src/components/**/[A-Z]*.js',
+    },
+    {
+      name: 'Plugging In Field Types',
+      content: 'docs/custom-fields.md',
       exampleMode: 'expand', // 'hide' | 'collapse' | 'expand'
       usageMode: 'expand' // 'hide' | 'collapse' | 'expand'
     }

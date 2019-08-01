@@ -49,6 +49,7 @@
     "carbon-icons": "^7.0.7",
     "css-loader": "^3.0.0",
     "draft-js": "^0.11.0",
+    "draftjs-to-html": "^0.8.4",
     "formik": "^1.5.7",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

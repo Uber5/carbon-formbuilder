@@ -9,6 +9,8 @@ const SubmitButton = props => <IconButton {...props}>Submit</IconButton>
 
 export default props => {
   const { config, initialValues, onSubmit, renderSubmitButton, renderForm, ...remainingProps } = props
+  ok(config && config.fields, 'requires "config" prop with fields')
+
   const _initialValues = Object.assign(
     {},
     config.fields
