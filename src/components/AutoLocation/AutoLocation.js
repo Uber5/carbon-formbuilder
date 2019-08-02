@@ -46,7 +46,7 @@ export default class LocationField extends React.Component {
             const results = await geocodeByAddress(address)
             const firstResult = results[0]
             const latLng = await getLatLng(firstResult)
-            this.props.setFieldValue(this.props.field.name, {
+            this.props.formikProps.setFieldValue(this.props.field.name, {
               address_components: firstResult.address_components,
               formatted_address: firstResult.formatted_address,
               ...latLng
@@ -70,7 +70,7 @@ export default class LocationField extends React.Component {
                   getInputProps().onChange({ target: { value: selectedItem } })
                   getSuggestionItemProps(selectedItem).onClick({ target: { value: selectedItem }})
                 } else {
-                  this.props.setFieldValue(this.props.field.name, null, false)
+                  this.props.formikProps.setFieldValue(this.props.field.name, null, false)
                 }
               }}
               onInputChange={text => {

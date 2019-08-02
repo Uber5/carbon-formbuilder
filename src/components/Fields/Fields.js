@@ -19,8 +19,9 @@ const defaultValidationByFieldType = {
   }
 }
 
-const AutoTouchField = ({ field, formikField, formikProps, formProps }) => {
-
+const AutoTouchField = props => {
+  
+  const { field, formikField, formikProps, formProps } = props
   const { values, errors, touched, handleChange, handleBlur, setTouched } = formikProps
   const { type, name, label, placeholder, disableAutoTouch } = field
   const { pluginFieldTypes } = formProps

@@ -25,7 +25,7 @@ import draftToHtml from 'draftjs-to-html';
 
 const plugins = {
   para: {
-    render: ({ field, setFieldValue }) => {
+    render: ({ field, formikProps: { setFieldValue } }) => {
       const [ editorState, editorStateChanged ] = useState(null)
       return <>
         <em>{field.label}</em>
