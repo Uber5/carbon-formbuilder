@@ -1,12 +1,12 @@
 import React from "react"
 import { ComboBox, DropdownSkeleton } from "carbon-components-react"
 import PlacesAutocomplete, {
-  geocodeByPlaceId,
+  // geocodeByPlaceId,
   geocodeByAddress,
   getLatLng
 } from "react-places-autocomplete"
 
-export default class PlacesSearchField extends React.Component {
+export default class LocationField extends React.Component {
   constructor(props) {
     super(props)
     this.state = { address: '', gmapsLoaded: false }
@@ -30,6 +30,7 @@ export default class PlacesSearchField extends React.Component {
   }
 
   render() {
+    const { field } = this.props
     const { address, gmapsLoaded } = this.state
     if (!gmapsLoaded) {
       return <DropdownSkeleton />
@@ -37,9 +38,22 @@ export default class PlacesSearchField extends React.Component {
     return (
       <PlacesAutocomplete
         value={address}
+        debounce={500}
+        searchOptions={field.searchOptions}
         onChange={address => this.setState({ address })}
-        onSelect={address => {
-          console.log('onSelect, address', address)
+        onSelect={async address => {
+          try {
+            const results = await geocodeByAddress(address)
+            const firstResult = results[0]
+            const latLng = await getLatLng(firstResult)
+            this.props.setFieldValue(this.props.field.name, {
+              address_components: firstResult.address_components,
+              formatted_address: firstResult.formatted_address,
+              ...latLng
+            }, false)
+          } catch (e) {
+            alert(`Error while fetching address details: ${e.message}`)
+          }
         }}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => {
@@ -47,14 +61,17 @@ export default class PlacesSearchField extends React.Component {
             <ComboBox
               items={suggestions || []}
               itemToString={item => {
-                console.log('item', item)
-                return item.description
+                return item ? item.description : ''
               }}
-              placeholder='placeholder...'
-              titleText='Location title...'
+              placeholder='Search address..'
+              titleText={field.label || 'Address'}
               onChange={({ selectedItem }) => {
-                console.log('onChange, selectedItem', selectedItem)
-                this.props.setFieldValue(this.props.field.name, selectedItem, false)
+                if (selectedItem) {
+                  getInputProps().onChange({ target: { value: selectedItem } })
+                  getSuggestionItemProps(selectedItem).onClick({ target: { value: selectedItem }})
+                } else {
+                  this.props.setFieldValue(this.props.field.name, null, false)
+                }
               }}
               onInputChange={text => {
                 getInputProps().onChange({ target: { value: text }})

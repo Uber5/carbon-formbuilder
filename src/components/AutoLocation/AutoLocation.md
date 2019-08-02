@@ -1,16 +1,29 @@
-Use this to select one value from a finite list of values.
+Use this to select an address, including latitude and longitude, using Google Places search.
 
-(component not ready yet, also need more doc here...)
+After successfully selecting a location, the value will be an object with the
+following properties:
+
+- `address_components`: The components of the address (e.g. country, street number, etc.), as per [Google Places](https://developers.google.com/places/web-service/details#PlaceDetailsResults)
+- `formatted_address`: A string with the formatted address, for display purposes.
+- `lat` and `lng`: Latitude and longitude of the address
+
+In the code snippet below, replace the key with your own key for testing. The key below is probably disabled.
+
+In the field config, `searchOptions` can be used to e.g. limit locations to a country.
 
 ```js
 import FormBuilder from '../FormBuilder';
 
 const fields = [
   {
-    name: 'select1',
-    label: 'Select one element...',
+    name: 'address',
+    label: 'Business address',
     type: 'select-location',
-    key: 'AIzaSyBNM-zWwvvpbql_--TOcI_qpbURllpu4aY'
+    key: 'AIzaSyBNM-zWwvvpbql_--TOcI_qpbURllpu4aY',
+    searchOptions: {
+      types: ['geocode'],
+      componentRestrictions: { country: 'za' }
+    }
   }
 ];
 
