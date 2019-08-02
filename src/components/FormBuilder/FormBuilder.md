@@ -142,14 +142,12 @@ const validate = values => {
 /> 
 
 ```
-
-
-## Form with cellphone number 
+## Form with Phone Number 
 
 ```js
 const fields = [
   {
-    label: 'Please use international format!',
+    label: 'Please use international format',
     name: 'number',
     type: 'phone-number'
   }
@@ -159,12 +157,13 @@ const validate = values => {
   const errors = {}
   const { number } = values
 
-  // validate date
+  // validate number
   if (!number) {
     errors.number = 'Required'
   } else if (!/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/.test(number)) {
     errors.number= 'Invalid phone number format'
   }
+  return errors
 }
 
 <FormBuilder

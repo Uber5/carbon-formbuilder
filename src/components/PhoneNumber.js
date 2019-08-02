@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NumberInput } from 'carbon-components-react'
+import { NumberInput ,TextInput} from 'carbon-components-react'
 
 export default props => {
     const { field, values, errors, touched, handleBlur,handleChange } = props
@@ -7,15 +7,13 @@ export default props => {
     const [ localError ] = useState(null)
 
     return (
-        <NumberInput
+        <TextInput
           name={name}
           label={label}
           invalid={!!localError ||touched[name] && errors[name] !== undefined}
           invalidText={touched[name] && errors[name]}
-          value={values[name] || 0}
+          value={values[name] || ""}
           onBlur={handleBlur}
-          min={0}
-          max={99999999999}
           onChange={e => handleChange(e)}
           placeholder={field.placeholder}
         />
