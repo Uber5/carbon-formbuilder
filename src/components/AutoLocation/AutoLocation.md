@@ -7,6 +7,9 @@ following properties:
 - `formatted_address`: A string with the formatted address, for display purposes.
 - `lat` and `lng`: Latitude and longitude of the address
 
+:warning: TODO: Currently experimenting with not passing the key in the way
+described here.
+
 In the code snippet below, replace the key with your own key for testing. The key below is probably disabled.
 
 In the field config, `searchOptions` can be used to e.g. limit locations to a country.

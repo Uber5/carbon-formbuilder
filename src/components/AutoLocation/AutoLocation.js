@@ -9,32 +9,13 @@ import PlacesAutocomplete, {
 export default class LocationField extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { address: '', gmapsLoaded: false }
-  }
-
-  componentDidMount () {
-    if (window.initMap !== undefined){
-      this.setState({
-        gmapsLoaded: true,
-      })
-      return
-    }
-    window.initMap = () => {
-      this.setState({
-        gmapsLoaded: true,
-      })
-    }
-    const gmapScriptEl = document.createElement(`script`)
-    gmapScriptEl.src = `https://maps.googleapis.com/maps/api/js?key=${this.props.field.key}&libraries=places&callback=initMap`
-    document.querySelector(`body`).insertAdjacentElement(`beforeend`, gmapScriptEl)
+    this.state = { address: '' }
   }
 
   render() {
     const { field } = this.props
-    const { address, gmapsLoaded } = this.state
-    if (!gmapsLoaded) {
-      return <DropdownSkeleton />
-    }
+    const { address } = this.state
+    
     return (
       <PlacesAutocomplete
         value={address}
