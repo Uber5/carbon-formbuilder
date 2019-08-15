@@ -21,7 +21,7 @@ const validate = values => {
   const { field1, number } = values
 
   // validate field1
-  if (!field1 || field1.length < 3) {
+  if (field1 && field1.length < 3) {
     errors.field1 = 'Requires at least 3 characters'
   }
 
@@ -32,12 +32,15 @@ const validate = values => {
 
   return errors
 };
-
+const defaultValues ={
+  field1:'',
+  number:''
+};
 <FormBuilder
   config={{ fields, validate }}
   onSubmit={(values, actions) => {
     alert(`values: ${JSON.stringify(values)}`)
-    actions.setSubmitting(false)
+    actions.resetForm(defaultValues)
   }}
 />
 ```
@@ -62,7 +65,7 @@ const initialValues = {
   initialValues={initialValues}
   onSubmit={(values, actions) => {
     alert(`values: ${JSON.stringify(values)}`)
-    actions.setSubmitting(false)
+    actions.resetForm({field1:''})
   }}
 />
 
@@ -108,7 +111,7 @@ const validate = values => {
   config={{ fields, validate }}
   onSubmit={(values, actions) => {
     alert(`values: ${JSON.stringify(values)}`)
-    actions.setSubmitting(false);
+    actions.resetForm();
   }}
 />
 ```
@@ -137,7 +140,7 @@ const validate = values => {
   config={{ fields,validate}}
   onSubmit={(values, actions) => {
     alert(`values: ${JSON.stringify(values)}`)
-    actions.setSubmitting(false);
+    actions.resetForm();
   }}
 /> 
 

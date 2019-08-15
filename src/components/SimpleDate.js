@@ -62,7 +62,7 @@ export default ({ field, formikProps }) => {
         <DatePickerInput
           name={name}
           invalid={!!localError || touched[name] && errors[name] !== undefined}
-          value={text}
+          value={text }
           type='text'
           fullWidth={false}
           labelText={label}

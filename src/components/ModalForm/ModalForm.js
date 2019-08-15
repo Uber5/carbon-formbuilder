@@ -60,6 +60,7 @@ export default ({
           await onSubmit(values, actions)
           actions.setSubmitting(false)
           setOpen(false)
+          
         } catch (e) {
           alert('Submit failed: ' + e.message) // TODO: better error handling
         }
