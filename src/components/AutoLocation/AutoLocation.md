@@ -14,6 +14,11 @@ In the code snippet below, replace the key with your own key for testing. The ke
 
 In the field config, `searchOptions` can be used to e.g. limit locations to a country.
 
+:warning: TODO: The Google key needs (at least) the following APIs enabled:
+- Geocoding API
+- Maps Javascript API
+- Places API
+
 ```js
 import FormBuilder from '../FormBuilder';
 
