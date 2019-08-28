@@ -87,7 +87,10 @@ const AutoTouchField = props => {
           invalidText={touched[name] && errors[name]}
           value={values[name] || 0}
           onBlur={handleBlur}
-          onChange={e => handleChange(e)}
+          onChange={e => {
+            e.stopPropagation()
+            handleChange(e)}
+          } 
           placeholder={field.placeholder}
         />
       )

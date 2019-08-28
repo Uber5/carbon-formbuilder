@@ -12,7 +12,7 @@ const fields = [
 
 const validate = ({ someText }) => {
   const errors = {}
-  if (!someText || someText.length < 3) {
+  if (someText && someText.length < 3) {
     errors.someText = 'Requires 3 or more characters'
   }
   return errors
@@ -21,7 +21,7 @@ const validate = ({ someText }) => {
 const onSubmit = async (values, actions) => {
   await new Promise(res => setTimeout(res, 1000)) // wait a bit, for the "submitting" effect
   alert(`values: ${JSON.stringify(values)}`)
-  actions.setSubmitting(false)
+  actions.resetForm({someText:''})
 }
 
 ;
@@ -48,7 +48,7 @@ const fields = [
 
 const validate = ({ someText }) => {
   const errors = {}
-  if (!someText || someText.length < 3) {
+  if (someText && someText.length < 3) {
     errors.someText = 'Requires 3 or more characters'
   }
   return errors
@@ -57,7 +57,7 @@ const validate = ({ someText }) => {
 const onSubmit = async (values, actions) => {
   await new Promise(res => setTimeout(res, 1000))
   alert(`values: ${JSON.stringify(values)}`)
-  actions.setSubmitting(false)
+  actions.resetForm({someText:''})
 }
 
 ;
