@@ -16,10 +16,10 @@ const applyWithProps = (
 
 const evalExports = (code, requireFn, globals = {}) => {
   const fn = Function.apply(null, [ 'exports', 'require', ...Object.keys(globals), code])
-  console.log('fn', fn)
+  // console.log('fn', fn)
   const _exports = {}
   fn.apply(null, [ _exports, requireFn , ...Object.values(globals) ])
-  console.log('_exports', _exports)
+  // console.log('_exports', _exports)
   return _exports
 }
 
