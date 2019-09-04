@@ -6,16 +6,19 @@ export default ({ name, label, options, searchable, useOptionsFn, optionsFn, for
 
   const { handleChange, values, setFieldValue } = formikProps
   const _options = useOptions({ options, useOptionsFn, optionsFn, formProps })
+
   const [ previousValue, setPreviousValue ] = useState(values[name])
+  const [ resetting, setResetting ] = useState(false)
 
   useEffect(() => {
     if (!values[name] && previousValue) {
-      console.log('RESET???')
+      setResetting(true)
+      setTimeout(() => setResetting(false), 200)
     }
     setPreviousValue(values[name])
   }, [ previousValue, values ])
 
-  if (_options === null) {
+  if (_options === null || resetting) {
     return <SelectSkeleton />
   } else if (searchable) {
     return (
