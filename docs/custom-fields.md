@@ -15,6 +15,8 @@ we define a field `someField` of type `para`.
 4. Render the form using the `FormBuilder` component, where you pass the plugins in
 a prop `pluginFieldTypes`.
 
+## Custom Field Type: Formatted Text
+
 ```js
 import { useState } from 'react';
 import { FormBuilder } from '../src';
@@ -60,5 +62,81 @@ const config = {
 <FormBuilder config={config} pluginFieldTypes={plugins} onSubmit={(values, actions) => {
   alert(`values: ${JSON.stringify(values)}`)
   actions.setSubmitting(false)
+}}/>
+```
+
+## Custom Field Type: Phonenumber
+
+```js
+import { useState, useEffect } from 'react';
+import { TextInput, TextInputSkeleton } from 'carbon-components-react';
+import { FormBuilder, useIsResetting } from '../src';
+import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
+
+const plugins = {
+  phone: {
+    render: ({ field, formikProps, formikField }) => {
+      const { values, errors, touched, handleChange, handleBlur, setTouched, setFieldValue } = formikProps
+      const { type, name, label, placeholder, disableAutoTouch } = field
+      const [ asYouType, _ ] = useState(new AsYouType())
+      const [ asTyped, setAsTyped ] = useState(values[name] || '')
+      const [ isValid, setIsValid ] = useState(false)
+      const [ displayValue, setDisplayValue ] = useState(values[name] || '')
+      
+      const isResetting = useIsResetting({ value: values[name] })
+
+      useEffect(() => {
+        if (isResetting) {
+          setAsTyped(values[name] || '')
+          setDisplayValue(values[name] || '')
+        } else {
+          const parsed = parsePhoneNumberFromString(asTyped)
+          if (parsed && parsed.isValid()) {
+            setFieldValue(name, parsed.number)
+            setDisplayValue(parsed.formatInternational())
+          } else {
+            setDisplayValue(asTyped)
+          }
+        }
+      }, [ asTyped, isResetting ])
+
+      if (isResetting) {
+        return <>
+          <TextInputSkeleton labelText={label} />
+        </>
+      }
+
+      return <>
+        <TextInput name={name} 
+          {...formikField}
+          labelText={label}
+          type="text"
+          value={displayValue}
+          invalid={touched[name] && errors[name] !== undefined}
+          invalidText={touched[name] && errors[name]}
+          onBlur={handleBlur}
+          onChange={e => {
+            setAsTyped(e.target.value)
+          }}
+          placeholder={placeholder}
+        />
+      </>
+    }
+  }
+};
+
+const config = {
+  fields: [
+    {
+      name: 'somePhonenumberField',
+      label: 'Some Phone Number',
+      type: 'phone'
+    }
+  ]
+};
+
+<FormBuilder config={config} pluginFieldTypes={plugins} onSubmit={(values, actions) => {
+  alert(`values: ${JSON.stringify(values)}`)
+  actions.resetForm()
 }}/>
 ```
