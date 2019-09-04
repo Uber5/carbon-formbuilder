@@ -44,11 +44,22 @@ const fields = fieldTypes.map(t => ({
   ] : undefined
 }));
 
+const initialValues = {
+  "field-email": "x@test.com",
+  "field-password": "secret",
+  "field-date": '2019-07-01',
+  "field-number": 123,
+  "field-text": "bla bla",
+  "field-select-multi":["one"],
+  "field-select-one":"two"
+};
+
 <FormBuilder
   config={{ fields }}
+  initialValues={initialValues}
   onSubmit={(values, actions) => {
     alert(`values: ${JSON.stringify(values)}`)
-    actions.resetForm({})
+    actions.resetForm(initialValues)
   }}
 />
 

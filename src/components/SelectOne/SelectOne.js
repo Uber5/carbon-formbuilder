@@ -1,22 +1,14 @@
 import React, { useEffect, useState }  from 'react'
 import { Select, SelectItem, SelectSkeleton, ComboBox } from 'carbon-components-react'
 import useOptions from '../../lib/useOptions'
+import useIsResetting from '../../lib/useIsResetting'
 
 export default ({ name, label, options, searchable, useOptionsFn, optionsFn, formikProps, formProps }) => {
 
   const { handleChange, values, setFieldValue } = formikProps
   const _options = useOptions({ options, useOptionsFn, optionsFn, formProps })
 
-  const [ previousValue, setPreviousValue ] = useState(values[name])
-  const [ resetting, setResetting ] = useState(false)
-
-  useEffect(() => {
-    if (!values[name] && previousValue) {
-      setResetting(true)
-      setTimeout(() => setResetting(false), 200)
-    }
-    setPreviousValue(values[name])
-  }, [ previousValue, values ])
+  const resetting = useIsResetting({ value: values[name] })
 
   if (_options === null || resetting) {
     return <SelectSkeleton />

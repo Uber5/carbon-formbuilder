@@ -1,12 +1,18 @@
 import React from 'react'
-import useOptions from  '../../lib/useOptions'
 import { SelectSkeleton, MultiSelect } from  'carbon-components-react'
+import useOptions from  '../../lib/useOptions'
+import useIsResetting from '../../lib/useIsResetting'
+
 export default ({ formikProps, formProps, ...field }) => {
   const options = useOptions(field)
-
+  // the value to do the reset check is a string, so that the equality
+  // test of useIsResetting is effective
+  const isResetting = useIsResetting({
+    value: (formikProps.values[field.name] || []).map(e => e.toString()).join('-')
+  })
   const { touched, errors, setFieldValue } = formikProps
 
-  if (!options) {
+  if (!options || isResetting) {
     return <SelectSkeleton />
   }
 
@@ -21,8 +27,8 @@ export default ({ formikProps, formProps, ...field }) => {
     invalidText={touched[name] && errors[name]}
     items={options}
     itemToString={option => option.name}
+    initialSelectedItems={options.filter(o => (formikProps.values[field.name] || []).includes(o.value))}
     onChange={({ selectedItems }) => {
-      console.log('MultiSelect onChange, e', selectedItems)
       setFieldValue(field.name, selectedItems.map(e => e.value))
     }}
   />
