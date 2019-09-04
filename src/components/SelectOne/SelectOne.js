@@ -6,6 +6,14 @@ export default ({ name, label, options, searchable, useOptionsFn, optionsFn, for
 
   const { handleChange, values, setFieldValue } = formikProps
   const _options = useOptions({ options, useOptionsFn, optionsFn, formProps })
+  const [ previousValue, setPreviousValue ] = useState(values[name])
+
+  useEffect(() => {
+    if (!values[name] && previousValue) {
+      console.log('RESET???')
+    }
+    setPreviousValue(values[name])
+  }, [ previousValue, values ])
 
   if (_options === null) {
     return <SelectSkeleton />
@@ -28,6 +36,7 @@ export default ({ name, label, options, searchable, useOptionsFn, optionsFn, for
         name={name}
         labelText={label}
         defaultValue={values[name] || "placeholder-item"}
+        value={values[name]}
         onChange={handleChange}
       >
         <SelectItem

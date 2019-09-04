@@ -19,6 +19,11 @@ const defaultValidationByFieldType = {
   }
 }
 
+export const fieldTypes = [
+  'email', 'password', 'date', 'select-location', 'number',
+  'text', 'select-one', 'select-multi'
+]
+
 const AutoTouchField = props => {
   
   const { field, formikField, formikProps, formProps } = props

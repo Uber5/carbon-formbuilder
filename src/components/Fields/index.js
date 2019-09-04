@@ -1,1 +1,1 @@
-export { default as default } from './Fields'
+export { default as default, fieldTypes } from './Fields'

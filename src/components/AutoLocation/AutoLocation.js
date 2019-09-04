@@ -9,12 +9,25 @@ import PlacesAutocomplete, {
 export default class LocationField extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { address: '' }
+    this.state = { address: '', err: undefined }
+  }
+
+  componentDidCatch(err) {
+    return { err }
+  }
+
+  static getDerivedStateFromError(err) {
+    // Update state so the next render will show the fallback UI.
+    return { err }
   }
 
   render() {
     const { field } = this.props
-    const { address } = this.state
+    const { address, err } = this.state
+    
+    if (err) {
+      return <div>Error field "{field.name}": {err.message || '(no error details)'}</div>
+    }
     
     return (
       <PlacesAutocomplete

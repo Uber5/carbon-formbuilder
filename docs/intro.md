@@ -23,3 +23,33 @@ npm install u5-carbon-formbuilder carbon-components \
 ```
 
 See also [the NPM package](https://www.npmjs.com/package/u5-carbon-formbuilder).
+
+### Field Types
+
+Below form demonstrates all field types.
+
+The `select-location` type is excluded for now, as it won't work with a Google Maps API key.
+
+```js
+import FormBuilder from '../src/components/FormBuilder';
+import { fieldTypes } from '../src/components/Fields';
+
+const fields = fieldTypes.map(t => ({
+  label: `Field of type "${t}"`,
+  name: `field-${t}`,
+  type: t,
+  options: t === 'select-one' || t === 'select-multi' ? [
+    { name: 'Option 1', value: 'one' },
+    { name: 'Option 2', value: 'two' }
+  ] : undefined
+}));
+
+<FormBuilder
+  config={{ fields }}
+  onSubmit={(values, actions) => {
+    alert(`values: ${JSON.stringify(values)}`)
+    actions.resetForm({})
+  }}
+/>
+
+```
