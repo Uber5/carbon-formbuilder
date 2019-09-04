@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Form, FormGroup, RadioButton, TextInput, NumberInput } from 'carbon-components-react'
-import { IconButton } from 'u5-carbon-components-react'
+import { TextInput, NumberInput } from 'carbon-components-react'
 import { Field as FormikField } from 'formik'
+import { parsePhoneNumberFromString } from 'libphonenumber-js'
 
 import SelectOne from '../SelectOne'
 import SelectMulti from '../SelectMulti'
@@ -16,6 +16,23 @@ const defaultValidationByFieldType = {
       return 'Invalid email address'
     }
     return undefined
+  
+  },
+  'phone-number': value => {
+    let parsed
+  
+    parsed = parsePhoneNumberFromString(value)
+    if (parsed && parsed.isValid()) {
+      console.log('parsing...', parsed)
+      return undefined
+    }
+  
+    // try with prepending '+'
+    parsed = parsePhoneNumberFromString('+' + value)
+    if (parsed && parsed.isValid()) {
+       return undefined
+    }
+    return 'Invalid contact number: ' + value
   }
 }
 
@@ -133,6 +150,26 @@ const AutoTouchField = props => {
           formProps={formProps}
         />
       )
+    case 'phone-number':
+      return (
+        <TextInput
+          {...formikField}
+          labelText={label}
+          invalid={touched[name] && errors[name] !== undefined}
+          invalidText={touched[name] && errors[name]}
+          onBlur={handleBlur}
+          type='phone-number'
+          onChange={e => {
+            console.log('event',e);
+            
+            handleChange(e)
+            setChanged(true)
+          }}
+          placeholder={placeholder}
+        />
+
+      )
+
 
     // case 'checkbox':
     //   return (
