@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Form, FormGroup, RadioButton, TextInput, NumberInput } from 'carbon-components-react'
-import { IconButton } from 'u5-carbon-components-react'
+import { TextInput, NumberInput,Checkbox } from 'carbon-components-react'
 import { Field as FormikField } from 'formik'
+
 
 import SelectOne from '../SelectOne'
 import SelectMulti from '../SelectMulti'
@@ -20,12 +20,11 @@ const defaultValidationByFieldType = {
 }
 
 const AutoTouchField = props => {
-  
   const { field, formikField, formikProps, formProps } = props
-  const { values, errors, touched, handleChange, handleBlur, setTouched } = formikProps
+  const { values, errors, touched, handleChange, handleBlur, setTouched  } = formikProps
   const { type, name, label, placeholder, disableAutoTouch } = field
   const { pluginFieldTypes } = formProps
-  
+ 
   // we implement 'auto touch' to set a field touched after 3 secs of making
   // the first change. TODO: should use debounce
   const [ isChanged, setChanged ] = useState(false)
@@ -108,6 +107,14 @@ const AutoTouchField = props => {
           placeholder={placeholder}
         />
       )
+      // case 'check-box':
+      //   return (
+      //     <Checkbox
+      //       {...field}
+      //       formikProps={formikProps}
+      //       formProps={formProps}
+      //     />
+      //   )
     case 'select-one':
       return (
         <SelectOne
@@ -126,19 +133,23 @@ const AutoTouchField = props => {
         />
       )
 
-    // case 'checkbox':
-    //   return (
-    //     <SelectionControl
-    //       id={field.name}
-    //       name={field.name}
-    //       label={field.label}
-    //       type="checkbox"
-    //       defaultValue={field.value || false}
-    //       value={values[field.name]}
-    //       onChange={(val, e) => handleChange(e)}
-    //     />
-    //   )
-
+    case 'checkbox':
+      return (
+        <Checkbox
+         {...formikField}
+         type="checkbox"
+          id={field.name}
+          name={field.name}
+          labelText={field.label}
+          onBlur={handleBlur}
+          defaultValue={field.name || false}
+          value={values[field.name]|| ''}
+          onChange=  {(val,ix, e) => {
+            handleChange(e)}}
+        />
+      )
+      //
+      // {values[field.className]}
     // case 'switch':
     //   return (
     //     <SelectionControl

@@ -112,6 +112,24 @@ const validate = values => {
   }}
 />
 ```
+## Form with CHECKBOX
+
+```js
+const fields = [
+  {
+    label: 'Set part of uniqueness check',
+    name: 'isPartofUniqCheck',
+    type: 'checkbox'
+  }
+];
+<FormBuilder
+  config={{ fields}}
+  onSubmit={(values, actions) => {
+    alert(`values: ${JSON.stringify(values)}`)
+    actions.setSubmitting(false);
+  }}
+/>
+```
 ## Form with date 
 
 ```js

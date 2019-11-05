@@ -5,8 +5,6 @@ import { ok } from 'assert'
 
 export default ({ name, label, options, formikProps }) => {
 
-  console.log('see options=====>', name)
-
   const [ _options, setOptions ] = useState(null)
   const { handleChange, values } = formikProps
   
