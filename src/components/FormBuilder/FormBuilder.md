@@ -115,6 +115,32 @@ const validate = values => {
   }}
 />
 ```
+
+## Form with Checkbox
+
+```js
+const fields = [
+  {
+    label: 'I agree to the terms and conditions',
+    name: 'agreed',
+    type: 'checkbox'
+  }
+];
+const validate = values => {
+  if (!values.agreed) {
+    return { agreed: 'You must agree' }
+  }
+};
+
+<FormBuilder
+  config={{ fields, validate}}
+  onSubmit={(values, actions) => {
+    alert(`values: ${JSON.stringify(values)}`)
+    actions.setSubmitting(false);
+  }}
+/>
+```
+
 ## Form with date 
 
 ```js
