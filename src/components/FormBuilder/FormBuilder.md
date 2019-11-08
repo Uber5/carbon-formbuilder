@@ -116,7 +116,7 @@ const validate = values => {
 />
 ```
 
-## Form with Checkbox
+## Form with checkbox
 
 ```js
 const fields = [

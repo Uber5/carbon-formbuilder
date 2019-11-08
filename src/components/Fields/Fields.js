@@ -145,8 +145,8 @@ const AutoTouchField = props => {
             labelText={field.label}
             onBlur={handleBlur}
             defaultValue={field.name || false}
-            value={values[field.name]|| ''}
             checked={values[field.name]}
+            value={values[field.name]|| ''}
             invalid={touched[name] && errors[name] !== undefined}
             invalidText={touched[name] && errors[name]}
             onChange={(val,ix, e) => {
