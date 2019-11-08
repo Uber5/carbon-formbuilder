@@ -134,6 +134,7 @@ const validate = values => {
 
 <FormBuilder
   config={{ fields, validate}}
+  initialValues={{ agreed: true }}
   onSubmit={(values, actions) => {
     alert(`values: ${JSON.stringify(values)}`)
     actions.setSubmitting(false);
