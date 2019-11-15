@@ -26,7 +26,7 @@ export default props => {
     ? renderForm
     : formikProps => {
       const submitButton = renderSubmitButton
-        ? renderSubmitButton() // TODO: needs props (but which ones? how to programmatically submit?)
+        ? renderSubmitButton(formikProps)
         : <SubmitButton
             disabled={
               Object.keys(formikProps.errors).length > 0 ||
